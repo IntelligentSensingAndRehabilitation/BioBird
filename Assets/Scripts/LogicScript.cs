@@ -2,9 +2,15 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using System;
+using UnityEngine.Events;
 
 public class LogicScript : MonoBehaviour
 {
+    [Serializable]
+    public class Event : UnityEvent { };
+    public Event SetDefaultPipeWidthEvent;
+
     public int playerScore; // Holds the player's score
     public int countdownTimer; // Holds the countdown timer value
     public Text scoreText; // Reference to the score text in the UI
@@ -56,6 +62,7 @@ public class LogicScript : MonoBehaviour
         Time.timeScale = 1; // Ensure the game time is resumed
 
         StartCoroutine(SwitchToScene(currentScene.buildIndex, currentScene.buildIndex)); // Reload the scene
+        SetDefaultPipeWidthEvent.Invoke(); // Reset the default pipe width
     }
 
     public void gameOver()

@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.Events;
 using System;
+using UnityEngine.SceneManagement;
 
 public class UI : MonoBehaviour
 {
@@ -56,6 +57,7 @@ public class UI : MonoBehaviour
     [Serializable]
     public class Event : UnityEvent { };
     public Event StartGameEvent;
+    public Event PopulateDropdownEvent;
 
     [Serializable]
     public class FloatEvent : UnityEvent<float> { };
@@ -85,6 +87,17 @@ public class UI : MonoBehaviour
         // }
         // currentTime = DateTime.Now.ToString("h:mm tt");
         // currentTimeToDisplay.text = currentTime;
+    }
+
+    private void OnEnable()
+    {
+        // Check if the current scene is Main Menu and if the previous scene was
+        // either Level1, Level2, or Level3. If so, then call then invoke a function
+        // called PopulateDropdownEvent
+        if (SceneManager.GetActiveScene().name == "Main Menu")
+        {
+            PopulateDropdownEvent.Invoke();
+        }
     }
 
     public void CallExitButton()
@@ -298,4 +311,6 @@ public class UI : MonoBehaviour
     {
         isActiveMaxTrialBased.text = status.ToString();
     }
+
+
 }

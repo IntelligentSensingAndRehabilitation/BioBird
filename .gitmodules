@@ -1,0 +1,3 @@
+[submodule "SharedGameAssets"]
+	path = SharedGameAssets
+	url = https://github.com/IntelligentSensingAndRehabilitation/SharedGameAssets.git

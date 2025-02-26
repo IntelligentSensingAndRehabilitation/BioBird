@@ -13,6 +13,7 @@ public class PipeMiddleScript : MonoBehaviour
     private Scene currentScene; // Declare currentScene as a class-level variable
     private BirdScript birdScript; // Reference to the BirdScript component
 
+    private bool alreadyAddedScore = false; // Flag to check if the score has already been added for a given pipe
     private bool isResettingPosition = false; // Flag to check if the position is being reset
     private Vector3 resetStartPosition; // Starting position for resetting
 
@@ -55,36 +56,44 @@ public class PipeMiddleScript : MonoBehaviour
         }
     }
 
+    public void newPipe()
+    {
+        alreadyAddedScore = false;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
-        if (this.gameObject.name == "Middle")
+        if (!alreadyAddedScore)
         {
-            Debug.Log("this.gameObject.name == " + this.gameObject.name);
-            logic.addScore(1);
-
-            // Check if bird's x position is between -4 and -9
-            if (birdScript.transform.position.x >= -11f && birdScript.transform.position.x <= -7f)
+            if (this.gameObject.name == "Middle")
             {
-                // Start the reset position coroutine if it's not already running
-                if (!isResettingPosition)
+                Debug.Log("this.gameObject.name == " + this.gameObject.name);
+                logic.addScore(1);
+
+                // Check if bird's x position is between -4 and -9
+                if (birdScript.transform.position.x >= -11f && birdScript.transform.position.x <= -7f)
                 {
-                    resetStartPosition = birdScript.transform.position;
-                    StartCoroutine(ResetBirdPosition());
+                    // Start the reset position coroutine if it's not already running
+                    if (!isResettingPosition)
+                    {
+                        resetStartPosition = birdScript.transform.position;
+                        StartCoroutine(ResetBirdPosition());
+                    }
                 }
             }
-        }
 
-        if (this.gameObject.name == "LogTrial")
-        {
-            Debug.Log("this.gameObject.name == " + this.gameObject.name);
-            // Invoke the UpdateAndroidTrialLog event
-            updateAndroidTrialLog.Invoke();
-            // trialNumber++;
-            // updateTrialInfoWithTrialNumber.Invoke(trialNumber);
-            // //Update trial number
-            // AndroidBinding.Instance.SetTrialNumber(trialNumber);
-            // Debug.Log("Trial Number: " + trialNumber);
+            if (this.gameObject.name == "LogTrial")
+            {
+                Debug.Log("this.gameObject.name == " + this.gameObject.name);
+                // Invoke the UpdateAndroidTrialLog event
+                updateAndroidTrialLog.Invoke();
+                // trialNumber++;
+                // updateTrialInfoWithTrialNumber.Invoke(trialNumber);
+                // //Update trial number
+                // AndroidBinding.Instance.SetTrialNumber(trialNumber);
+                // Debug.Log("Trial Number: " + trialNumber);
+            }
+            alreadyAddedScore = true;
         }
     }
 
